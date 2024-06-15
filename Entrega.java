@@ -456,10 +456,10 @@ class Entrega {
       for (int i = 0; i < rel.length; i++) {
           int x = rel[i][0];
           int y = rel[i][1];
-          // Verificar si (x, y) y (y, x) están en rel
+          //verificar si (x, y) y (y, x) están en rel
           for (int j = 0; j < rel.length; j++) {
               if (rel[j][0] == y && rel[j][1] == x && x != y) {
-                  return false; // Se encontró una pareja no antisimétrica
+                  return false; //se encontró una pareja no antisimétrica
               }
           }
       }
@@ -868,11 +868,11 @@ class Entrega {
             int[][] moves = {{-2, -1}, {-2, 1}, {-1, 2}, {1, 2}, {2, 1}, {2, -1}, {-1, -2}, {1, -2}};
 
             //representación del tablero como una matriz
-            int board[][] = new int[w][h];
+            int tablero[][] = new int[w][h];
 
             //inicializamos el tablero con valores -1, que indican que no hemos visitado aún esa casilla
-            for (int[] row : board) {
-                Arrays.fill(row, -1);
+            for (int[] fila : tablero) {
+                Arrays.fill(fila, -1);
             }
 
             //definimos las coordenadas de inicio y fin
@@ -882,18 +882,18 @@ class Entrega {
             int targetY = j / w;
 
             //inicializamos la posición de inicio con 0, ya que no hay movimientos necesarios para llegar a ella
-            board[startX][startY] = 0;
+            tablero[startX][startY] = 0;
 
             //implementación del algoritmo de Dijkstra
             for (int k = 0; k < w * h; k++) {
                 for (int x = 0; x < w; x++) {
                     for (int y = 0; y < h; y++) {
-                        if (board[x][y] != -1) {
+                        if (tablero[x][y] != -1) {
                             for (int[] move : moves) {
                                 int newX = x + move[0];
                                 int newY = y + move[1];
-                                if (newX >= 0 && newX < w && newY >= 0 && newY < h && (board[newX][newY] == -1 || board[newX][newY] > board[x][y] + 1)) {
-                                    board[newX][newY] = board[x][y] + 1;
+                                if (newX >= 0 && newX < w && newY >= 0 && newY < h && (tablero[newX][newY] == -1 || tablero[newX][newY] > tablero[x][y] + 1)) {
+                                    tablero[newX][newY] = tablero[x][y] + 1;
                                 }
                             }
                         }
@@ -902,8 +902,8 @@ class Entrega {
             }
 
             //retornamos el valor de la casilla destino, que contiene el número mínimo de movimientos necesarios
-            System.out.println("mínim nombre de moviments: " + board[targetX][targetY]);
-            return board[targetX][targetY];
+            System.out.println("mínim nombre de moviments: " + tablero[targetX][targetY]);
+            return tablero[targetX][targetY];
     }
 
     /*
@@ -913,32 +913,32 @@ class Entrega {
     static boolean exercici3(int[][] g, int r, int u, int v) {
       System.out.println("<><> EXERCICI 3 <><>");
 
-            boolean[] visited = new boolean[g.length];
-            boolean[] result = {false}; // Variable para almacenar el resultado de la búsqueda
-            preorderDFS(g, r, u, v, visited, result); // Llamada al método modificado
+            boolean[] visitado = new boolean[g.length];
+            boolean[] result = {false}; //variable para almacenar el resultado de la búsqueda
+            preorderDFS(g, r, u, v, visitado, result); //llamada al método modificado
             System.out.println(result[0]);
             return result[0];
     }
 
-    static void preorderDFS(int[][] g, int current, int u, int v, boolean[] visited, boolean[] result) {
-      visited[current] = true;
+    static void preorderDFS(int[][] g, int current, int u, int v, boolean[] visitado, boolean[] result) {
+      visitado[current] = true;
 
-      // Si ya se encontraron tanto u como v, no hay necesidad de seguir buscando
+      //si ya se encontraron tanto u como v, no hay necesidad de seguir buscando
       if (result[0]) {
           return;
       }
 
       if (current == u) {
-          result[0] = true; // Marcamos que u ha sido encontrado
+          result[0] = true; //marcamos que u ha sido encontrado
       }
       if (current == v && !result[0]) {
-          // Si encontramos v antes de encontrar u, el resultado debe ser false
+          //si encontramos v antes de encontrar u, el resultado debe ser false
           result[0] = false;
           return;
       }
-      for (int neighbor : g[current]) {
-          if (!visited[neighbor]) {
-              preorderDFS(g, neighbor, u, v, visited, result);
+      for (int vecino : g[current]) {
+          if (!visitado[vecino]) {
+              preorderDFS(g, vecino, u, v, visitado, result);
           }
       }
   }
@@ -959,17 +959,17 @@ class Entrega {
             int[] nodeChildren = new int[preord.length];
             int currentIndex = 0;
 
-            // Recorrer el preorden
+            //recorrer el preorden
             while (nodeIndex < preord.length) {
                 maxHeight = Math.max(maxHeight, currentHeight);
                 int children = d[preord[nodeIndex]];
 
                 if (children > 0) {
-                    // Empieza un nuevo nivel
+                    //empieza un nuevo nivel
                     nodeChildren[currentIndex++] = children;
                     currentHeight++;
                 } else {
-                    // Retrocede hasta encontrar un nodo con hijos no procesados
+                    //retrocede hasta encontrar un nodo con hijos no procesados
                     while (currentIndex > 0 && nodeChildren[currentIndex - 1] == 1) {
                         currentIndex--;
                         currentHeight--;
@@ -1070,7 +1070,7 @@ class Entrega {
 
             if (a == 0 || b == 0) {
                 System.out.println("mcm: 0");
-                return 0; // Si alguno es 0, el mcm es 0
+                return 0; //si alguno es 0, el mcm es 0
             }
             int mcd = euclides(a, b);
             System.out.println("mcm: " + Math.abs(a * b) / mcd);
@@ -1100,22 +1100,22 @@ class Entrega {
 
             int d = euclides(a, n);
 
-            // Si gcd(a, n) no divide a b, no hay soluciones
+            //si euclides(a, n) no divide a b, no hay soluciones
             if (b % d != 0) {
                 System.out.println("no existeixen");
                 return new int[]{};
             }
 
-            // Simplificar la ecuación dividiendo por d
+            //simplificar la ecuación dividiendo por d
             a /= d;
             b /= d;
             n /= d;
 
-            // Encontrar una solución particular usando el inverso modular
+            //encontrar una solución particular usando el inverso
             int a_inv = modInverse(a, n);
             int x0 = (a_inv * b) % n;
 
-            // Generar todas las soluciones
+            //generar todas las soluciones
             int[] solutions = new int[d];
             for (int i = 0; i < d; i++) {
                 solutions[i] = (x0 + i * n) % (n * d);
@@ -1133,25 +1133,25 @@ class Entrega {
             return solutions;
     }
 
-    static int[] extendedGCD(int a, int b) {
+    static int[] extendedEuclides(int a, int b) {
       if (b == 0) {
           return new int[]{a, 1, 0};
       }
-      int[] result = extendedGCD(b, a % b);
-      int gcd = result[0];
+      int[] result = extendedEuclides(b, a % b);
+      int mcd = result[0];
       int x1 = result[1];
       int y1 = result[2];
       int x = y1;
       int y = x1 - (a / b) * y1;
-      return new int[]{gcd, x, y};
+      return new int[]{mcd, x, y};
   }
 
   static int modInverse(int a, int n) {
-      int[] result = extendedGCD(a, n);
-      int gcd = result[0];
+      int[] result = extendedEuclides(a, n);
+      int mcd = result[0];
       int x = result[1];
-      // Asegurarse de que el inverso es positivo
-      if (gcd != 1) {
+      //asegurarse de que el inverso es positivo
+      if (mcd != 1) {
           return -1;
       }
       return (x % n + n) % n;
@@ -1191,35 +1191,35 @@ class Entrega {
     static int exercici4(int n, int k, int p) {
       System.out.println("<><> EXERCICI 4 <><>");
 
-            // Aseguramos que n sea no negativo
+            //aseguramos que n sea no negativo
             while (n < 0) {
                 n += p;
             }
 
-            // Calculamos phi(p)
+            //calculamos phi(p)
             int phiP = p - 1;
 
-            // Reducimos k módulo phi(p)
+            //reducimos k módulo phi(p)
             k %= phiP;
 
-            // Calculamos n^k % p
-            int result = power(n, k, p);
+            //calculamos n^k % p
+            int result = exponente(n, k, p);
 
             System.out.println(result);
             return result;
     }
 
-    static int power(int a, int b, int m) {
-      int result = 1; // Inicializamos el resultado como 1
+    static int exponente(int a, int b, int m) {
+      int result = 1; //inicializamos el resultado como 1
 
-      // Hacemos exponenciación modular
+      //hacemos exponenciación modular
       a = a % m;
       while (b > 0) {
-          // Si b es impar, multiplicamos el resultado por a
+          //si b es impar, multiplicamos el resultado por a
           if (b % 2 == 1) {
               result = (result * a) % m;
           }
-          // Reducimos b a la mitad y a al cuadrado
+          //reducimos b a la mitad y a al cuadrado
           b /= 2;
           a = (a * a) % m;
       }
